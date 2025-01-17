@@ -19,11 +19,11 @@ import {
     ApiOperation,
     ApiResponse,
 } from '@nestjs/swagger';
-import { Role } from 'src/common/roles';
-import { HasRole } from 'src/custom-decorators/has-role.decorator';
-import { IsPublic } from 'src/custom-decorators/is-public.decorator';
-import { UserInfo } from 'src/custom-decorators/user';
-import { ErrorResponse } from 'src/error/error-response';
+import { Role } from '@common/roles';
+import { HasRole } from '@decorators/has-role.decorator';
+import { IsPublic } from '@decorators/is-public.decorator';
+import { UserInfo } from '@decorators/user';
+import { ErrorResponse } from 'error/error-response';
 import {
     ActivateCustomerDto,
     DeactivateCustomerDto,

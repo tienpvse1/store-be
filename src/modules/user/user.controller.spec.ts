@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { TokenSigner } from 'src/common/signer/signer';
+import { TokenSigner } from '@common/signer/signer';
 import { vi } from 'vitest';
 import { AuthGuard } from '../auth/jwt.guard';
 import { CreateUserDto } from './dto/create-user.dto';

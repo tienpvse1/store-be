@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectKysely, KyselyInstance } from 'src/common/db';
-import { Role } from 'src/common/roles';
+import { InjectKysely, KyselyInstance } from '@common/db';
+import { Role } from '@common/roles';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { FilterCustomerDto } from '../dto/filter-customer.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';

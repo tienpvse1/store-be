@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Role } from 'src/common/roles';
+import { Role } from '@common/roles';
 import { vi } from 'vitest';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';

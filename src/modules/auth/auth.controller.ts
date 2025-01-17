@@ -7,12 +7,12 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { ErrorResponse } from 'src/error/error-response';
+import { ErrorResponse } from 'error/error-response';
 import { AuthService } from './auth.service';
 import { AuthResponse } from './dto/auth.response';
 import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/sign-up.dto';
-import { IsPublic } from 'src/custom-decorators/is-public.decorator';
+import { IsPublic } from '@decorators/is-public.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')

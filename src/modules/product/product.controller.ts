@@ -15,10 +15,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Role } from 'src/common/roles';
-import { HasRole } from 'src/custom-decorators/has-role.decorator';
-import { IsPublic } from 'src/custom-decorators/is-public.decorator';
-import { UserInfo } from 'src/custom-decorators/user';
+import { Role } from '@common/roles';
+import { HasRole } from '@decorators/has-role.decorator';
+import { IsPublic } from '@decorators/is-public.decorator';
+import { UserInfo } from '@decorators/user';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FilterProductDto } from './dto/filter-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';

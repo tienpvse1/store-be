@@ -1,5 +1,5 @@
-import { TokenSigner } from 'src/common/signer/signer';
-import { PasswordHasher } from 'src/modules/hasher/interface';
+import { PasswordHasher } from '@modules/hasher/interface';
+import { TokenSigner } from '@common/signer/signer';
 import { vi } from 'vitest';
 
 export function getTestUser() {

@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { User } from 'src/modules/user/entities/user.entity';
-import { mockConfigService } from 'src/testing/mocker';
+import { User } from '@modules/user/entities/user.entity';
+import { mockConfigService } from '@testing/mocker';
 import { vi } from 'vitest';
 import { Role } from '../roles';
 import { Hs256TokenSigner } from './hs256.singer';

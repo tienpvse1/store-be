@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { TokenSigner } from 'src/common/signer/signer';
+import { TokenSigner } from '@common/signer/signer';
 import { PasswordHasher } from '../hasher/interface';
 import { UserService } from '../user/user.service';
 import { AuthResponse } from './dto/auth.response';

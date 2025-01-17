@@ -9,6 +9,13 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -18,6 +25,53 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.category (
+    name text NOT NULL
+);
+
+
+--
+-- Name: order; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."order" (
+    id text NOT NULL,
+    payment_method text,
+    order_status text,
+    paid boolean DEFAULT false,
+    created_at timestamp with time zone,
+    created_by_id integer NOT NULL,
+    last_updated_by_id integer,
+    last_updated_at timestamp with time zone
+);
+
+
+--
+-- Name: order_item; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.order_item (
+    id text NOT NULL,
+    order_id text NOT NULL,
+    product_id integer NOT NULL,
+    quantity integer NOT NULL,
+    CONSTRAINT order_item_quantity_check CHECK ((quantity > 0))
+);
+
+
+--
+-- Name: order_status; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.order_status (
+    name text NOT NULL
+);
+
+
+--
+-- Name: payment_method; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.payment_method (
     name text NOT NULL
 );
 
@@ -154,6 +208,30 @@ ALTER TABLE ONLY public.category
 
 
 --
+-- Name: order order_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."order"
+    ADD CONSTRAINT order_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: order_status order_status_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_status
+    ADD CONSTRAINT order_status_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: payment_method payment_method_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payment_method
+    ADD CONSTRAINT payment_method_pkey PRIMARY KEY (name);
+
+
+--
 -- Name: product_category product_category_pk; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -226,10 +304,42 @@ ALTER TABLE ONLY public.product
 
 
 --
+-- Name: order_item order_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_item
+    ADD CONSTRAINT order_fk FOREIGN KEY (order_id) REFERENCES public."order"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: order order_status_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."order"
+    ADD CONSTRAINT order_status_fk FOREIGN KEY (order_status) REFERENCES public.order_status(name);
+
+
+--
+-- Name: order payment_method_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."order"
+    ADD CONSTRAINT payment_method_fk FOREIGN KEY (payment_method) REFERENCES public.payment_method(name);
+
+
+--
 -- Name: product_category product_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.product_category
+    ADD CONSTRAINT product_fk FOREIGN KEY (product_id) REFERENCES public.product(id);
+
+
+--
+-- Name: order_item product_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_item
     ADD CONSTRAINT product_fk FOREIGN KEY (product_id) REFERENCES public.product(id);
 
 
@@ -268,4 +378,5 @@ ALTER TABLE ONLY public.user_role
 
 INSERT INTO public.schema_migrations (version) VALUES
     ('20241227011024'),
-    ('20250113075329');
+    ('20250113075329'),
+    ('20250117022615');

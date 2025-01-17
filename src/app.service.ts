@@ -1,5 +1,5 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import { InjectKysely, KyselyInstance } from './common/db';
+import { InjectKysely, KyselyInstance } from '@common/db';
 import { sql } from 'kysely';
 
 @Injectable()

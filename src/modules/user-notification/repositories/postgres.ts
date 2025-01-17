@@ -1,4 +1,4 @@
-import { InjectKysely, KyselyInstance } from 'src/common/db';
+import { InjectKysely, KyselyInstance } from '@common/db';
 import { UserNotificaton } from '../entity/user-notification.entity';
 import { UserNotificationRepository } from '../user-notification.repository';
 

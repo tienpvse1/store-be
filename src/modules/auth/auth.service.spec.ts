@@ -1,18 +1,17 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { TokenSigner } from 'src/common/signer/signer';
+import { TokenSigner } from '@common/signer/signer';
 import {
   mockConfigService,
   mockHasherService,
   mockTokenSigner,
-} from 'src/testing/mocker';
+} from '@testing/mocker';
 import { vi } from 'vitest';
 import { PasswordHasher } from '../hasher/interface';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { debug } from 'console';
 import { SignupDto } from './dto/sign-up.dto';
 
 const mockUserService = {

@@ -1,8 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { createTransport, Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { UserNotificationRepository } from 'src/modules/user-notification/user-notification.repository';
-import { User } from 'src/modules/user/entities/user.entity';
+import { UserNotificationRepository } from '@modules/user-notification/user-notification.repository';
+import { User } from '@modules/user/entities/user.entity';
 import { NotificationEvent } from '../event';
 import { Notifier } from './interface';
 
