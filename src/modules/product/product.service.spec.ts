@@ -1,18 +1,17 @@
-import {
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { vi } from 'vitest';
+import { expect, vi } from 'vitest';
 import { ProductRepository } from './product.repository';
 import { ProductService } from './product.service';
 
 const mockProductRepository = {
   getProducts: vi.fn(),
   getProductById: vi.fn(),
-  deleteProduct: vi.fn(),
   updateProduct: vi.fn(),
   createProduct: vi.fn(),
+
+  deactivateProduct: vi.fn(),
+  activateProduct: vi.fn(),
 };
 
 describe('ProductService', () => {
@@ -154,6 +153,76 @@ describe('ProductService', () => {
         NotFoundException,
       );
       expect(mockProductRepository.updateProduct).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('deactivateProduct', () => {
+    it('should deactivate a product', async () => {
+      vi.spyOn(mockProductRepository, 'getProductById').mockResolvedValue({
+        id: 1,
+        name: 'Test Product',
+        isActive: true,
+      });
+      vi.spyOn(mockProductRepository, 'deactivateProduct').mockResolvedValue({
+        id: 1,
+        name: 'Test Product',
+        isActive: false,
+      });
+      const result = await service.deactivateProduct(1, 1);
+      expect(result).toMatchObject({
+        id: 1,
+        name: 'Test Product',
+        isActive: false,
+      });
+      expect(mockProductRepository.deactivateProduct).toHaveBeenCalledWith(
+        1,
+        1,
+      );
+    });
+
+    it('should throws bad request exception when product already deactivated', async () => {
+      vi.spyOn(mockProductRepository, 'getProductById').mockResolvedValue({
+        id: 1,
+        name: 'Test Product',
+        isActive: false,
+      });
+      await expect(service.deactivateProduct(1, 1)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('activateProduct', () => {
+
+    it('should activate a product', async () => {
+      vi.spyOn(mockProductRepository, 'getProductById').mockResolvedValue({
+        id: 1,
+        name: 'Test Product',
+        isActive: false,
+      });
+      vi.spyOn(mockProductRepository, 'activateProduct').mockResolvedValue({
+        id: 1,
+        name: 'Test Product',
+        isActive: true,
+      });
+      const result = await service.activateProduct(1, 1);
+      expect(result).toMatchObject({
+        id: 1,
+        name: 'Test Product',
+        isActive: true,
+      });
+      expect(mockProductRepository.activateProduct).toHaveBeenCalledWith(1, 1);
+    });
+
+    it('should throws bad request exception when product already activated', async () => {
+      vi.spyOn(mockProductRepository, 'getProductById').mockResolvedValue({
+        id: 1,
+        name: 'Test Product',
+        isActive: true,
+      });
+      await expect(service.activateProduct(1, 1)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
     });
   });
 

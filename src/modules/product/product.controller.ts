@@ -101,7 +101,7 @@ export class ProductController {
       'Deactivate product, customer can not see this product anymore',
   })
   @HasRole(Role.Admin)
-  remove(
+  deactivateProduct(
     @Param('id', new ParseIntPipe()) id: number,
     @UserInfo('id') adminId: number,
   ) {
