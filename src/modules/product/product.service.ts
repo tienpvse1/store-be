@@ -65,7 +65,7 @@ export class ProductService {
 
   async deactivateProduct(adminId: number, id: number) {
     const product = await this.repository.getProductById(id);
-    if (!product || !product.isActive) {
+    if (!product) {
       throw new NotFoundException('Product not found');
     }
     if (!product.isActive) {

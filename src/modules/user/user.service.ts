@@ -38,9 +38,11 @@ export class UserService {
     }
   }
 
+  /**
+   * will not throws exception if user is not found
+   */
   async findUserByEmail(email: string) {
     const user = await this.repository.findUserByEmailForLogin(email);
-    if (!user) throw new NotFoundException();
     return user;
   }
 

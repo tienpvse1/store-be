@@ -167,7 +167,7 @@ describe('UserService', () => {
       } catch (error) {
         findError = error;
       }
-      expect(findError).toBeInstanceOf(NotFoundException);
+      expect(findError).not.toBeDefined();
     });
   });
 
