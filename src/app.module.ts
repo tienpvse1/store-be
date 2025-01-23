@@ -16,10 +16,12 @@ import { RoleGuard } from '@modules/auth/role.guard';
 import { ProductModule } from '@modules/product/product.module';
 import { OrderModule } from '@modules/order/order.module';
 import { OrderItemModule } from '@modules/order-item/order-item.module';
+import { CodeGeneratorModule } from '@common/code-generator/code-generator.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [env], isGlobal: true }),
+    CodeGeneratorModule.forRoot(),
     DBModule.forRoot(),
     AuthModule,
     UserModule,

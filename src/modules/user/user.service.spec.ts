@@ -273,7 +273,7 @@ describe('UserService', () => {
         password: 'password',
       });
       expect(mockNotificationService.send).toHaveBeenCalledWith(
-        NotificationEvent.USER_REGISTERED,
+        NotificationEvent.UserRegistered,
         createdUser.id,
         'account created',
       );

@@ -8,3 +8,7 @@ export const UserInfo = createParamDecorator(
     return key ? request.user[key] : request;
   },
 );
+
+export function UserId() {
+  return UserInfo('id');
+}

@@ -41,7 +41,11 @@ CREATE TABLE public."order" (
     created_at timestamp with time zone,
     created_by_id integer NOT NULL,
     last_updated_by_id integer,
-    last_updated_at timestamp with time zone
+    last_updated_at timestamp with time zone,
+    customer_name text,
+    customer_address text,
+    customer_phone text,
+    customer_email text
 );
 
 
@@ -379,4 +383,5 @@ ALTER TABLE ONLY public.user_role
 INSERT INTO public.schema_migrations (version) VALUES
     ('20241227011024'),
     ('20250113075329'),
-    ('20250117022615');
+    ('20250117022615'),
+    ('20250117061012');

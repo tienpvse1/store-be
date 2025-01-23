@@ -1,6 +1,8 @@
 export enum NotificationEvent {
-  USER_REGISTERED = 'USER_REGISTERED',
-  USER_UPDATED = 'USER_UPDATED',
-  USER_ACTIVATED = 'USER_ACTIVATED',
-  USER_DEACTIVATED = 'USER_DEACTIVATED',
+  UserRegistered = 'UserRegistered',
+  UserUpdated = 'UserUpdated',
+  UserActivated = 'UserActivated',
+  UserDeactivated = 'UserDeactivated',
+
+  OrderPlaced = 'OrderPlaced',
 }

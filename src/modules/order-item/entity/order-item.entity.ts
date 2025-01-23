@@ -4,7 +4,7 @@ export class OrderItem {
   @ApiProperty()
   id: string;
   @ApiProperty()
-  productId: string;
+  productId: number;
   @ApiProperty()
   orderId: string;
   @ApiProperty()

@@ -8,7 +8,7 @@ INSERT INTO public.payment_method (name) values ('COD'), ('Bank');
 CREATE TABLE public.order_status (
 name TEXT PRIMARY KEY
 );
-INSERT INTO public.order_status (name) VALUES ('new'), ('processing'), ('done') ;
+INSERT INTO public.order_status (name) VALUES ('New'), ('Processing'), ('Done') ;
 
 CREATE TABLE public.order (
   id TEXT PRIMARY KEY,

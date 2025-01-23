@@ -68,7 +68,7 @@ export class UserService {
     try {
       const createdCustomer = await this.repository.createUser(dto);
       this.notification.send(
-        NotificationEvent.USER_REGISTERED,
+        NotificationEvent.UserRegistered,
         createdCustomer.id,
         'account created',
       );
