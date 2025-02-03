@@ -3,6 +3,8 @@ export enum NotificationEvent {
   UserUpdated = 'UserUpdated',
   UserActivated = 'UserActivated',
   UserDeactivated = 'UserDeactivated',
+  
+  PasscodeGenerated = 'PasscodeGenerated',
 
   OrderPlaced = 'OrderPlaced',
 }

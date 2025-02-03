@@ -1,9 +1,11 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TokenSigner } from '@common/signer/signer';
 import {
+  getTestUser,
   mockConfigService,
+  mockEmail,
   mockHasherService,
   mockTokenSigner,
 } from '@testing/mocker';
@@ -13,10 +15,17 @@ import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/sign-up.dto';
+import { OtpService } from '@modules/otp/otp.service';
 
 const mockUserService = {
   findUserByEmail: vi.fn(),
   createCustomer: vi.fn(),
+  setPassword: vi.fn(),
+};
+
+const mockOtpService = {
+  createOtp: vi.fn(),
+  validateOtp: vi.fn(),
 };
 
 describe('AuthService', () => {
@@ -42,6 +51,7 @@ describe('AuthService', () => {
         if (token == PasswordHasher) return mockHasherService;
         if (token == TokenSigner) return mockTokenSigner;
         if (token == ConfigService) return mockConfigService;
+        if (token == OtpService) return mockOtpService;
       })
       .compile();
 
@@ -123,6 +133,78 @@ describe('AuthService', () => {
       const response = await service.signUp(dto);
       expect(mockTokenSigner.signToken).toHaveBeenCalled();
       expect(response.user['password']).not.toBeDefined();
+    });
+  });
+
+  describe('sendResetPassCode', () => {
+    it('should call send OTP function', async () => {
+      vi.spyOn(mockOtpService, 'createOtp');
+      await service.sendResetPassCode(mockEmail);
+      expect(mockOtpService.createOtp).toHaveBeenCalled();
+    });
+
+    it('should throw error if user not found', async () => {
+      vi.spyOn(mockUserService, 'findUserByEmail').mockResolvedValue(null);
+      await expect(service.sendResetPassCode(mockEmail)).rejects.toThrow();
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should also throw error if otp throw error', async () => {
+      vi.spyOn(mockOtpService, 'validateOtp').mockRejectedValue(
+        NotFoundException,
+      );
+      await expect(
+        service.resetPassword({
+          otp: '000000',
+          newPassword: 'Username730`',
+          userEmail: mockEmail,
+        }),
+      ).rejects.toThrow();
+    });
+
+    it('should throw error if OTP is invalid', async () => {
+      vi.spyOn(mockOtpService, 'validateOtp').mockResolvedValue(false);
+      await expect(
+        service.resetPassword({
+          otp: '000000',
+          newPassword: 'Username730`',
+          userEmail: mockEmail,
+        }),
+      ).rejects.toThrow(UnauthorizedException);
+    });
+
+    it('should throw error if user with email not found', async () => {
+      vi.spyOn(mockOtpService, 'validateOtp').mockResolvedValue(true);
+      vi.spyOn(mockUserService, 'findUserByEmail').mockReturnValue(null);
+
+      await expect(
+        service.resetPassword({
+          otp: '000000',
+          newPassword: 'Username730`',
+          userEmail: mockEmail,
+        }),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('call reset password function from UserService if everything is fine', async () => {
+      vi.spyOn(mockOtpService, 'validateOtp').mockResolvedValue(true);
+      vi.spyOn(mockUserService, 'findUserByEmail').mockReturnValue(
+        getTestUser(),
+      );
+
+      vi.spyOn(service, 'login');
+      try {
+        await service.resetPassword({
+          otp: '000000',
+          newPassword: 'Username730`',
+          userEmail: mockEmail,
+        });
+      } catch {
+      } finally {
+        expect(mockUserService.setPassword).toHaveBeenCalled();
+        expect(service.login).toHaveBeenCalled();
+      }
     });
   });
 });

@@ -1,3 +1,4 @@
+import { PaginationResult } from '@common/pagination';
 import { FilterOrderDto } from './dto/get-order.dto';
 import { PlaceOrderDto } from './dto/place-order.dto';
 import { Order } from './entities/order.entity';
@@ -7,5 +8,5 @@ export abstract class OrderRepository {
   abstract getOrdersByCustomerId(
     customerId: number,
     filter: FilterOrderDto,
-  ): Promise<Order[]>;
+  ): Promise<PaginationResult<Order>>;
 }

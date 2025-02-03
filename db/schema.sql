@@ -9,13 +9,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -68,6 +61,18 @@ CREATE TABLE public.order_item (
 
 CREATE TABLE public.order_status (
     name text NOT NULL
+);
+
+
+--
+-- Name: otp; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.otp (
+    id text NOT NULL,
+    user_id integer,
+    created_at timestamp with time zone,
+    is_active boolean
 );
 
 
@@ -228,6 +233,14 @@ ALTER TABLE ONLY public.order_status
 
 
 --
+-- Name: otp otp_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.otp
+    ADD CONSTRAINT otp_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: payment_method payment_method_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -372,6 +385,14 @@ ALTER TABLE ONLY public.user_role
 
 
 --
+-- Name: otp user_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.otp
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public."user"(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -384,4 +405,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20241227011024'),
     ('20250113075329'),
     ('20250117022615'),
-    ('20250117061012');
+    ('20250117061012'),
+    ('20250124040527');

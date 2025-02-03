@@ -7,27 +7,27 @@ export class FilterOrderDto {
   @ApiProperty({
     required: false,
     default: 10,
-    description: 'Limit of items per page, min is 0 and max is 50',
+    description: 'items per page, min is 0 and max is 50',
   })
   @Optional()
   @IsNumber()
   @Max(50)
   @Min(0)
   @Type(() => Number)
-  @ValidateIf((o) => Boolean(o.limit))
-  readonly limit?: number;
+  @ValidateIf((o) => Boolean(o.pageSize))
+  readonly pageSize?: number;
 
   @ApiProperty({
     required: false,
     default: 0,
-    description: 'Offset of items, min is 0',
+    description: 'current page',
   })
   @Optional()
   @IsNumber()
   @Min(0)
   @Type(() => Number)
-  @ValidateIf((o) => Boolean(o.offset))
-  readonly offset: number;
+  @ValidateIf((o) => Boolean(o.page))
+  readonly page?: number;
 
   @ApiProperty({
     required: false,

@@ -1,6 +1,7 @@
 import { Generator } from '@common/code-generator';
 import { InjectKysely, KyselyInstance } from '@common/db';
 import { OrderStatus } from '@common/order-status';
+import { PaginationResult, withPagination } from '@common/pagination';
 import { PaymentMethod } from '@common/payment-method';
 import { Injectable } from '@nestjs/common';
 import { jsonBuildObject } from 'kysely/helpers/postgres';
@@ -83,7 +84,7 @@ export class PostgresOrderRepository extends OrderRepository {
   async getOrdersByCustomerId(
     customerId: number,
     filter: FilterOrderDto,
-  ): Promise<Order[]> {
+  ): Promise<PaginationResult<Order>> {
     let query = this.instance
       .selectFrom('order')
       .leftJoin('orderItem', 'orderItem.orderId', 'order.id')
@@ -99,42 +100,41 @@ export class PostgresOrderRepository extends OrderRepository {
           eb('order.id', 'ilike', `%${filter.search}%`),
         ]);
       });
+      return withPagination(
+        query,
+        {
+          page: filter.page,
+          pageSize: filter.pageSize,
+        },
+        (eb) => [
+          'order.id',
+          'order.id',
+          'order.createdAt',
+          'order.lastUpdatedAt',
+          eb
+            .ref('order.paymentMethod')
+            .$castTo<PaymentMethod>()
+            .as('paymentMethod'),
+          eb.ref('order.orderStatus').$castTo<OrderStatus>().as('orderStatus'),
+          'order.createdById',
+          'order.lastUpdatedById',
+          'order.paid',
+          'order.customerAddress',
+          'order.customerEmail',
+          'order.customerName',
+          'order.customerPhone',
+          eb.fn
+            .jsonAgg(
+              jsonBuildObject({
+                id: eb.ref('orderItem.id'),
+                productId: eb.ref('orderItem.productId'),
+                quantity: eb.ref('orderItem.quantity'),
+                orderId: eb.ref('orderItem.orderId'),
+              }),
+            )
+            .as('orderItems'),
+        ],
+      );
     }
-    const count = await query
-      .select((eb) => eb.fn.count('order.id').as('count'))
-      .executeTakeFirst();
-
-    return query
-      .select((eb) => [
-        'order.id',
-        'order.id',
-        'order.createdAt',
-        'order.lastUpdatedAt',
-        eb
-          .ref('order.paymentMethod')
-          .$castTo<PaymentMethod>()
-          .as('paymentMethod'),
-        eb.ref('order.orderStatus').$castTo<OrderStatus>().as('orderStatus'),
-        'order.createdById',
-        'order.lastUpdatedById',
-        'order.paid',
-        'order.customerAddress',
-        'order.customerEmail',
-        'order.customerName',
-        'order.customerPhone',
-        eb.fn
-          .jsonAgg(
-            jsonBuildObject({
-              id: eb.ref('orderItem.id'),
-              productId: eb.ref('orderItem.productId'),
-              quantity: eb.ref('orderItem.quantity'),
-              orderId: eb.ref('orderItem.orderId'),
-            }),
-          )
-          .as('orderItems'),
-      ])
-      .limit(filter.limit || 10)
-      .offset(filter.offset || 0)
-      .execute();
   }
 }
