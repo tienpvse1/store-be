@@ -1,18 +1,18 @@
 import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
+    BadRequestException,
+    Inject,
+    Injectable,
+    InternalServerErrorException,
+    Logger,
+    NotFoundException,
 } from '@nestjs/common';
 import { PasswordHasher } from '../hasher/interface';
+import { NotificationEvent } from '../notification/event';
 import { NotificationService } from '../notification/notification.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FilterCustomerDto } from './dto/filter-customer.dto';
-import { UserRepository } from './user.repository';
-import { NotificationEvent } from '../notification/event';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
@@ -38,9 +38,11 @@ export class UserService {
     }
   }
 
+  /**
+   * will not throws exception if user is not found
+   */
   async findUserByEmail(email: string) {
     const user = await this.repository.findUserByEmailForLogin(email);
-    if (!user) throw new NotFoundException();
     return user;
   }
 
@@ -66,7 +68,7 @@ export class UserService {
     try {
       const createdCustomer = await this.repository.createUser(dto);
       this.notification.send(
-        NotificationEvent.USER_REGISTERED,
+        NotificationEvent.UserRegistered,
         createdCustomer.id,
         'account created',
       );
@@ -106,6 +108,13 @@ export class UserService {
   async findById(id: number) {
     const user = await this.repository.findById(id);
     if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
+
+  async setPassword(userId: number, newPassword: string) {
+    const user = await this.repository.updateUserProfile(userId, {
+      password: newPassword,
+    });
     return user;
   }
 }

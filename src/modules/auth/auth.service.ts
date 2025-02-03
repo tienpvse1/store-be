@@ -1,20 +1,29 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { TokenSigner } from 'src/common/signer/signer';
+import { TokenSigner } from '@common/signer/signer';
+import { OtpService } from '@modules/otp/otp.service';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PasswordHasher } from '../hasher/interface';
 import { UserService } from '../user/user.service';
 import { AuthResponse } from './dto/auth.response';
 import { LoginDto } from './dto/login.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SignupDto } from './dto/sign-up.dto';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
-    private passwordHasher: PasswordHasher,
-    private tokenSigner: TokenSigner,
-    private config: ConfigService,
-  ) {}
+    private readonly config: ConfigService,
+    private readonly otpService: OtpService,
+    private readonly userService: UserService,
+    private readonly tokenSigner: TokenSigner,
+    private readonly passwordHasher: PasswordHasher,
+  ) { }
 
   async login(dto: LoginDto): Promise<AuthResponse> {
     const errorMessage = 'bad credentials!';
@@ -41,5 +50,33 @@ export class AuthService {
       refreshToken: '',
       user: createdUser,
     };
+  }
+
+  async sendResetPassCode(email: string) {
+    const user = await this.userService.findUserByEmail(email);
+    if (!user) throw new NotFoundException('user with email not found');
+    await this.otpService.createOtp(user.id);
+    return;
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const isOtpValid = await this.otpService.validateOtp(
+      dto.otp,
+      dto.userEmail,
+    );
+    if (!isOtpValid) throw new UnauthorizedException('OTP is incorrect');
+    const user = await this.userService.findUserByEmail(dto.userEmail);
+    if (!user) throw new NotFoundException('user with email not found');
+    try {
+      const hashedNewPassword = await this.passwordHasher.hashPassword(
+        dto.newPassword,
+      );
+      await this.userService.setPassword(user.id, hashedNewPassword);
+    } catch (error) {
+      Logger.error(error);
+
+      throw new InternalServerErrorException('cannot update user password');
+    }
+    return this.login({ email: dto.userEmail, password: dto.newPassword });
   }
 }

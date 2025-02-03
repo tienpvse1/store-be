@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { TokenSigner } from 'src/common/signer/signer';
-import { IS_PUBLIC_KEY } from 'src/custom-decorators/is-public.decorator';
+import { TokenSigner } from '@common/signer/signer';
+import { IS_PUBLIC_KEY } from '@decorators/is-public.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

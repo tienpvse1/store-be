@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { sign, verify } from 'jsonwebtoken';
-import { User } from 'src/modules/user/entities/user.entity';
+import { User } from '@modules/user/entities/user.entity';
 import { TokenSigner } from './signer';
 
 @Injectable()

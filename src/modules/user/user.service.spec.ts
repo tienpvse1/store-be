@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { KYSELY_INSTANCE } from 'src/common/db';
-import { Role } from 'src/common/roles';
+import { KYSELY_INSTANCE } from '@common/db';
+import { Role } from '@common/roles';
 import { vi } from 'vitest';
 import { HasherModule } from '../hasher/hasher.module';
 import { PasswordHasher } from '../hasher/interface';
@@ -167,7 +167,7 @@ describe('UserService', () => {
       } catch (error) {
         findError = error;
       }
-      expect(findError).toBeInstanceOf(NotFoundException);
+      expect(findError).not.toBeDefined();
     });
   });
 
@@ -273,7 +273,7 @@ describe('UserService', () => {
         password: 'password',
       });
       expect(mockNotificationService.send).toHaveBeenCalledWith(
-        NotificationEvent.USER_REGISTERED,
+        NotificationEvent.UserRegistered,
         createdUser.id,
         'account created',
       );

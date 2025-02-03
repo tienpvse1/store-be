@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { sql } from 'kysely';
-import { InjectKysely, KyselyInstance } from 'src/common/db';
+import { InjectKysely, KyselyInstance } from 'common/db';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { FilterProductDto } from '../dto/filter-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';

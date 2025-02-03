@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotificationService } from './notification.service';
+import { Sendable } from './notifier/interface';
+
+const mockSender = {};
 
 describe('NotificationService', () => {
   let service: NotificationService;
@@ -7,7 +10,13 @@ describe('NotificationService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [NotificationService],
-    }).compile();
+    })
+      .useMocker((token) => {
+        if (token == Sendable) {
+          return mockSender;
+        }
+      })
+      .compile();
 
     service = module.get<NotificationService>(NotificationService);
   });

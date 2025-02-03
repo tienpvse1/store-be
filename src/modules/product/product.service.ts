@@ -13,6 +13,11 @@ import { ProductRepository } from './product.repository';
 export class ProductService {
   constructor(private repository: ProductRepository) {}
 
+  async isProductExists(id: number) {
+    const product = await this.repository.getProductById(id);
+    return product != null && product != undefined;
+  }
+
   create(adminId: number, createProductDto: CreateProductDto) {
     try {
       const product = this.repository.createProduct(adminId, createProductDto);
@@ -65,7 +70,7 @@ export class ProductService {
 
   async deactivateProduct(adminId: number, id: number) {
     const product = await this.repository.getProductById(id);
-    if (!product || !product.isActive) {
+    if (!product) {
       throw new NotFoundException('Product not found');
     }
     if (!product.isActive) {

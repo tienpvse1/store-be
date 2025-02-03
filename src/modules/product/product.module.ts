@@ -10,5 +10,6 @@ import { PostgresProductRepository } from './repositories/postgres';
     ProductService,
     { provide: ProductRepository, useClass: PostgresProductRepository },
   ],
+  exports: [ProductService],
 })
 export class ProductModule {}

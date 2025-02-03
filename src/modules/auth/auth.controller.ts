@@ -1,18 +1,23 @@
+import { IsPublic } from '@decorators/is-public.decorator';
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-  ApiUnauthorizedResponse,
+    ApiBadRequestResponse,
+    ApiCreatedResponse,
+    ApiInternalServerErrorResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiOperation,
+    ApiTags,
+    ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { ErrorResponse } from 'src/error/error-response';
+import { Throttle } from '@nestjs/throttler';
+import { ErrorResponse } from 'error/error-response';
 import { AuthService } from './auth.service';
 import { AuthResponse } from './dto/auth.response';
 import { LoginDto } from './dto/login.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { SendOtpPasscodeDto } from './dto/send-reset-pass-code.dto';
 import { SignupDto } from './dto/sign-up.dto';
-import { IsPublic } from 'src/custom-decorators/is-public.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -47,5 +52,46 @@ export class AuthController {
   })
   signUp(@Body() dto: SignupDto) {
     return this.authService.signUp(dto);
+  }
+
+  @Post('send-otp')
+  @ApiCreatedResponse({
+    description: 'otp passcode sent successfully',
+    type: AuthResponse,
+  })
+  @ApiOperation({
+    summary: 'Send OTP passcode to reset password',
+    description:
+      'Required user to input their email, then sent the otp passcode to their email account if exists',
+  })
+  @ApiNotFoundResponse({
+    description: 'account with email not found',
+    type: ErrorResponse(HttpStatus.BAD_REQUEST),
+  })
+  @Throttle({ default: { ttl: 300000, limit: 1 } })
+  sendOtpCode(@Body() dto: SendOtpPasscodeDto) {
+    return this.authService.sendResetPassCode(dto.email);
+  }
+
+  @Post('reset-password')
+  @ApiCreatedResponse({
+    description: 'Password reset successfully',
+    type: AuthResponse,
+  })
+  @ApiOperation({
+    summary: 'Reset password',
+    description:
+      'Required user to input their new password and sent OTP passcode',
+  })
+  @ApiNotFoundResponse({
+    description: 'no active otp found',
+    type: ErrorResponse(HttpStatus.UNAUTHORIZED),
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'cannot reset password for some reason',
+    type: ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR),
+  })
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto);
   }
 }

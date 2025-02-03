@@ -1,6 +1,6 @@
+import { InjectKysely, KyselyInstance } from '@common/db';
+import { Role } from '@common/roles';
 import { Injectable } from '@nestjs/common';
-import { InjectKysely, KyselyInstance } from 'src/common/db';
-import { Role } from 'src/common/roles';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { FilterCustomerDto } from '../dto/filter-customer.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -246,5 +246,20 @@ export class PostgresUserRepository implements UserRepository {
       .groupBy('user.id')
       .executeTakeFirst();
     return admin;
+  }
+
+  async findByEmailAndId(userId: number, email: string): Promise<User | null> {
+    return this.kysely
+      .selectFrom('user')
+      .leftJoin('userRole', 'userRole.userId', 'user.id')
+      .select((eb) => [
+        'id',
+        'name',
+        'email',
+        'isActive',
+        eb.fn.jsonAgg(eb.ref('userRole.roleName')).as('roles'),
+      ])
+      .where((eb) => eb.and([eb('id', '=', userId), eb('email', '=', email)]))
+      .executeTakeFirst();
   }
 }

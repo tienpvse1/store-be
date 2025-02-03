@@ -3,12 +3,11 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   ParseIntPipe,
   Patch,
   Post,
-  Query,
+  Query
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -16,10 +15,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Role } from 'src/common/roles';
-import { HasRole } from 'src/custom-decorators/has-role.decorator';
-import { IsPublic } from 'src/custom-decorators/is-public.decorator';
-import { UserInfo } from 'src/custom-decorators/user';
+import { Role } from '@common/roles';
+import { HasRole } from '@decorators/has-role.decorator';
+import { IsPublic } from '@decorators/is-public.decorator';
+import { UserInfo } from '@decorators/user';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FilterProductDto } from './dto/filter-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -102,7 +101,7 @@ export class ProductController {
       'Deactivate product, customer can not see this product anymore',
   })
   @HasRole(Role.Admin)
-  remove(
+  deactivateProduct(
     @Param('id', new ParseIntPipe()) id: number,
     @UserInfo('id') adminId: number,
   ) {
