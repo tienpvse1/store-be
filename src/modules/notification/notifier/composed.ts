@@ -1,6 +1,9 @@
 import { NotificationEvent } from '../event';
 import { Notifier, Sendable } from './interface';
 
+/**
+ * using the decorator pattern + linked list structure to compose multiple notifiers
+ */
 export class NotifierComposer extends Sendable {
   private core: NotifierComposer;
   private current: Notifier;
@@ -10,9 +13,9 @@ export class NotifierComposer extends Sendable {
     this.current = initialNotifier;
   }
 
-  wrap(nextLayer: Notifier) {
+  add(newNotifier: Notifier) {
     this.core = this;
-    this.current = nextLayer;
+    this.current = newNotifier;
   }
 
   async send(

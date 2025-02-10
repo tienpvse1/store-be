@@ -1,8 +1,27 @@
-FROM node:22-slim
-WORKDIR /usr/src/app
-COPY ["package.json", "./"]
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:20-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN npm i -g corepack@latest
+RUN corepack enable
+COPY . /app
+WORKDIR /app
+
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+FROM base AS generate-types
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+COPY ./db /app/db
+RUN pnpm i -g dbmate
+RUN echo DATABASE_URL="postgresql://postgres:password@192.168.1.3:5432/store?sslmode=disable" >> /app/.env
+RUN pnpm migrate
+
+FROM generate-types AS build
+COPY --from=generate-types /app/node_modules /app/node_modules
+RUN pnpm run build
+
+FROM base AS prod
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
 EXPOSE 3000
-CMD ["pnpm", "start:prod"]
+CMD [ "pnpm", "start:prod" ]

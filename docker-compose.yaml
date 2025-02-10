@@ -12,6 +12,18 @@ services:
     volumes:
       - store_data:/var/lib/postgresql/data
   store_server:
-
+    image: tienpvse/store-backend
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT} 
+      POSTGRES_HOST: postgres
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      MAIL_USER: ${MAIL_USER} 
+      MAIL_PASS: ${MAIL_PASS}
+    ports:
+      - "3000:3000"
 volumes:
   store_data:

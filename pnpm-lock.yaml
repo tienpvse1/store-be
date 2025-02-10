@@ -28,10 +28,10 @@ importers:
         version: 10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)
       '@nestjs/swagger':
         specifier: ^8.1.0
-        version: 8.1.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1))(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)
+        version: 8.1.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)
       '@nestjs/throttler':
         specifier: ^6.4.0
-        version: 6.4.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1))(reflect-metadata@0.2.2)
+        version: 6.4.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)(reflect-metadata@0.2.2)
       '@scalar/nestjs-api-reference':
         specifier: ^0.3.174
         version: 0.3.174
@@ -83,7 +83,7 @@ importers:
         version: 10.2.3(chokidar@3.6.0)(typescript@5.7.2)
       '@nestjs/testing':
         specifier: ^10.0.0
-        version: 10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15))
+        version: 10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)(@nestjs/platform-express@10.4.15)
       '@swc/core':
         specifier: ^1.10.2
         version: 1.10.2
@@ -113,10 +113,13 @@ importers:
         version: 8.18.2(eslint@8.57.1)(typescript@5.7.2)
       '@vitest/coverage-v8':
         specifier: ^2.1.8
-        version: 2.1.8(vitest@2.1.8(@types/node@20.17.10)(@vitest/ui@3.0.4)(terser@5.37.0))
+        version: 2.1.8(vitest@2.1.8)
       '@vitest/ui':
         specifier: ^3.0.4
         version: 3.0.4(vitest@2.1.8)
+      dbmate:
+        specifier: ^2.25.0
+        version: 2.25.0
       eslint:
         specifier: ^8.42.0
         version: 8.57.1
@@ -358,6 +361,41 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
+
+  '@dbmate/darwin-arm64@2.25.0':
+    resolution: {integrity: sha512-nXx9yniTuYFewva6P/kilsMXUD8+hQTDit8KMG+3okxrMTfB70lo2Qe5mLjsJcXaBeyq1cFlkRDSpmGR+0UOig==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@dbmate/darwin-x64@2.25.0':
+    resolution: {integrity: sha512-zhk+oQwL31bHJDfyss++lLbjsm0Rxe13YX79uOxxsPmfipRay5d01Hdner7PjGiKKEQZ1/VL2D2j2qclCVJIUw==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@dbmate/linux-arm64@2.25.0':
+    resolution: {integrity: sha512-x/f+d51Hqpg9o8LygbNp4Qg//4t5gC3SIfsTYGwUZFzkCa8C06R2rwjqIyNmgNIRKCz4vXj5vZnXjJw3qbC95w==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@dbmate/linux-arm@2.25.0':
+    resolution: {integrity: sha512-ATRKjqB0sDYYSshQOBoQ7ryr/fPSiWrW/DYS/Z8aq2mp6zKBuqlxAv2VrQkFZezTqVe8Ph7PpAJKa4Hcg/XyOw==}
+    cpu: [arm]
+    os: [linux]
+
+  '@dbmate/linux-ia32@2.25.0':
+    resolution: {integrity: sha512-B1Hs0sdFeSlC9ZEmue67WdgPPh8lStcPV2f+nZUhDU/pdttGi/aJDbqOu/nWhuDAB3bHzMZkkfVjKB8n2jpiGA==}
+    cpu: [ia32]
+    os: [linux]
+
+  '@dbmate/linux-x64@2.25.0':
+    resolution: {integrity: sha512-l+Abtc2pzNVGIeodw72Gq4NNtVGm9T7/UTkwW2wzxUYT8fs5iO/AYY0O6Zd3K8MQPvJDCpwnwCJ8lOPAlPBwGQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@dbmate/win32-x64@2.25.0':
+    resolution: {integrity: sha512-5ouAh77t2ybjQFEZFpFhhW7cgxe7YcF9ic/GbOdY3LuXgl6bTac6bBKxO+kfAsXpZS6Tm2B1I3WhKBr8wRN2gw==}
+    cpu: [x64]
+    os: [win32]
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -1832,6 +1870,10 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  dbmate@2.25.0:
+    resolution: {integrity: sha512-xTl+1DOeMi5UJ2VjZZQVRVqIqMRtXnMXfpsrc2+8QhC5In9D2engq98fmpY7EgKzyTWYWeN3gIzWszf8fxUTrw==}
+    hasBin: true
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -4306,6 +4348,27 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
+  '@dbmate/darwin-arm64@2.25.0':
+    optional: true
+
+  '@dbmate/darwin-x64@2.25.0':
+    optional: true
+
+  '@dbmate/linux-arm64@2.25.0':
+    optional: true
+
+  '@dbmate/linux-arm@2.25.0':
+    optional: true
+
+  '@dbmate/linux-ia32@2.25.0':
+    optional: true
+
+  '@dbmate/linux-x64@2.25.0':
+    optional: true
+
+  '@dbmate/win32-x64@2.25.0':
+    optional: true
+
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
 
@@ -4798,7 +4861,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@nestjs/swagger@8.1.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1))(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)':
+  '@nestjs/swagger@8.1.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)':
     dependencies:
       '@microsoft/tsdoc': 0.15.1
       '@nestjs/common': 10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -4813,7 +4876,7 @@ snapshots:
       class-transformer: 0.5.1
       class-validator: 0.14.1
 
-  '@nestjs/testing@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15))':
+  '@nestjs/testing@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)(@nestjs/platform-express@10.4.15)':
     dependencies:
       '@nestjs/common': 10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core': 10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -4821,7 +4884,7 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-express': 10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)
 
-  '@nestjs/throttler@6.4.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1))(reflect-metadata@0.2.2)':
+  '@nestjs/throttler@6.4.0(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.15)(reflect-metadata@0.2.2)':
     dependencies:
       '@nestjs/common': 10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core': 10.4.15(@nestjs/common@10.4.15(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.15)(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -5232,7 +5295,7 @@ snapshots:
       hookable: 5.5.3
       zhead: 2.2.4
 
-  '@vitest/coverage-v8@2.1.8(vitest@2.1.8(@types/node@20.17.10)(@vitest/ui@3.0.4)(terser@5.37.0))':
+  '@vitest/coverage-v8@2.1.8(vitest@2.1.8)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -5854,6 +5917,16 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  dbmate@2.25.0:
+    optionalDependencies:
+      '@dbmate/darwin-arm64': 2.25.0
+      '@dbmate/darwin-x64': 2.25.0
+      '@dbmate/linux-arm': 2.25.0
+      '@dbmate/linux-arm64': 2.25.0
+      '@dbmate/linux-ia32': 2.25.0
+      '@dbmate/linux-x64': 2.25.0
+      '@dbmate/win32-x64': 2.25.0
 
   debug@2.6.9:
     dependencies:
