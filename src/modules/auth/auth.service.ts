@@ -23,7 +23,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly tokenSigner: TokenSigner,
     private readonly passwordHasher: PasswordHasher,
-  ) { }
+  ) {}
 
   async login(dto: LoginDto): Promise<AuthResponse> {
     const errorMessage = 'bad credentials!';
@@ -43,13 +43,17 @@ export class AuthService {
   }
 
   async signUp(dto: SignupDto): Promise<AuthResponse> {
-    const createdUser = await this.userService.createCustomer(dto);
-    const accessToken = this.tokenSigner.signToken(createdUser, '3m');
-    return {
-      accessToken,
-      refreshToken: '',
-      user: createdUser,
-    };
+    try {
+      const createdUser = await this.userService.createCustomer(dto);
+      const accessToken = this.tokenSigner.signToken(createdUser, '3m');
+      return {
+        accessToken,
+        refreshToken: '',
+        user: createdUser,
+      };
+    } catch (error) {
+      Logger.error(error);
+    }
   }
 
   async sendResetPassCode(email: string) {

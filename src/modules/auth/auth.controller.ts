@@ -1,14 +1,26 @@
-import { IsPublic } from '@decorators/is-public.decorator';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { IsNotPublic, IsPublic } from '@decorators/is-public.decorator';
+import { UserInfo } from '@decorators/user';
+import { User } from '@modules/user/entities/user.entity';
 import {
-    ApiBadRequestResponse,
-    ApiCreatedResponse,
-    ApiInternalServerErrorResponse,
-    ApiNotFoundResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiTags,
-    ApiUnauthorizedResponse,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { ErrorResponse } from 'error/error-response';
@@ -18,6 +30,7 @@ import { LoginDto } from './dto/login.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SendOtpPasscodeDto } from './dto/send-reset-pass-code.dto';
 import { SignupDto } from './dto/sign-up.dto';
+import { AuthGuard } from './jwt.guard';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -93,5 +106,23 @@ export class AuthController {
   })
   resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto);
+  }
+
+  @Get('verify')
+  @IsNotPublic()
+  @ApiOperation({
+    summary: 'Verify user token ',
+    description:
+      'Verify user token, returns user information if token is valid',
+  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'User information' })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    type: ErrorResponse(HttpStatus.UNAUTHORIZED),
+  })
+  @ApiBearerAuth('Authorization')
+  verify(@UserInfo() user: User) {
+    console.log(user);
+    return user;
   }
 }
